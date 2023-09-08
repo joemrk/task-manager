@@ -3,8 +3,8 @@ server:
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/task-manager
-    username: postgres
-    password: root
+    username: username
+    password: password
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -19,7 +19,7 @@ spring:
 app:
   security:
     jwt:
-      secret-key: 1234561234561234561234561234561234561234561234561234561234561234
+      secret-key: 1234561234561234561234561234561234561234561234561234561234561234 # 64 length
       expiration: 60000 # a day
 #      expiration: 86400000 # a day
 
