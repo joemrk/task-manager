@@ -14,4 +14,15 @@ public class TaskController {
     return ResponseEntity.ok("test");
   }
 
+  // create task
+
+  // get tasks - get by: tag, category, status
+
+  // edit tasks - details, date, title, tags
+
+  // delete task
+
+  // done task (edit)
+
+  //
 }

@@ -50,7 +50,7 @@ public class GlobalExceptionHandler {
     );
   }
 
-  @ExceptionHandler(BadCredentialsException.class)
+  @ExceptionHandler(BadCredentialsException.class) // spring throws as 403
   @ResponseStatus(HttpStatus.FORBIDDEN)
   public ResponseEntity<ErrorResponse> handleBadCredentialsException(BadCredentialsException ex){
     return new ResponseEntity<>(

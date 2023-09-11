@@ -38,12 +38,12 @@ public class AuthService {
   }
 
   public AuthResponse login(LoginDto dto) {
-    // ця хуйня сама під капотом парсить паролі і перевіряє
+    // під капотом парсить паролі і перевіряє, сетить SecurityContextHolder
     this.authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword())
     );
     // проблема тільки в тому, що виконується 2 запити в бд
-    // мб є варік в скоуп реквеста закинути юзера
+    // TODO: мб є варік в скоуп реквеста закинути юзера
     User user = this.userService.findByEmail(dto.getEmail())
             .orElseThrow();
 

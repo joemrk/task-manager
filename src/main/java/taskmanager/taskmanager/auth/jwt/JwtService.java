@@ -21,7 +21,7 @@ public class JwtService {
   private String SECRET_KEY;
 
   @Value("${app.security.jwt.expiration}")
-  private Long EXPIRATION; // a day
+  private Long EXPIRATION;
 
   public String createToken(User userDetails) {
     HashMap<String, String> extra = new HashMap<>();

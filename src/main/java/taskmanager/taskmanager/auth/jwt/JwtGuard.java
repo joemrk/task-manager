@@ -45,6 +45,7 @@ public class JwtGuard extends OncePerRequestFilter {
     // також перевіряє на expiration і кидає Access Denied
     final String email = jwtService.extractExtraClaim(token, "email");
 
+    // TODO: подививтися доку SecurityContextHolder, що тут відбувається, мб це не потрібно перевіряти
     if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       User user = this.userService.findByEmail(email).orElseThrow();
       if(jwtService.isTokenValid(token, user)) {
@@ -58,7 +59,7 @@ public class JwtGuard extends OncePerRequestFilter {
         return;
       }
     }
-    System.out.println(4);
+
     throw new UnavailableException("Unauthorized");
   }
 }
