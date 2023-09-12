@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import taskmanager.taskmanager.auth.jwt.JwtGuard;
-import taskmanager.taskmanager.exception.errors.UnauthorizedException;
 
 @Configuration
 @EnableWebSecurity
@@ -33,10 +32,6 @@ public class SecurityConfig {
                     .anyRequest()
                     .authenticated()
             )
-//            .exceptionHandling((e) -> {
-//              e.authenticationEntryPoint((req, res, ee) -> {throw new UnauthorizedException("wwd");})
-//                      .accessDeniedHandler((req, res, ee) -> {throw new UnauthorizedException("wwd");});
-//            })
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(authProvider)
             .addFilterBefore(jwtGuard, UsernamePasswordAuthenticationFilter.class);
