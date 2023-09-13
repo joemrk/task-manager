@@ -7,11 +7,13 @@ import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.ParameterMode;
+import taskmanager.taskmanager.exception.errors.BadRequestException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TagService {
@@ -26,18 +28,20 @@ public class TagService {
     this.entityManager = entityManager;
   }
 
-  public void createMany(List<String> tags) {
-    Set<String> existTags = this.tagRepository.findMany(tags)
+  public List<Tag> createMany(List<String> tags) { // ["tag1", "java", "spring"],
+    List<Tag> tagsList = this.tagRepository.findMany(tags);
+
+    if(tagsList.size() == tags.size()) {
+      return tagsList;
+    }
+
+    Set<String> setTags = tagsList
             .stream()
             .map(Tag::getName)
             .collect(Collectors.toSet());
 
-    if(existTags.size() == tags.size()) {
-      return;
-    }
-
     List<String> newTagsList = tags.stream()
-            .filter(t -> !existTags.contains(t))
+            .filter(t -> !setTags.contains(t))
             .toList();
 
 
@@ -47,8 +51,11 @@ public class TagService {
               .map(t -> Tag.builder().name(t).build())
               .toList();
 
-      this.tagRepository.saveAll(newTags);
+      List<Tag> savedTags = this.tagRepository.saveAll(newTags);
+      return Stream.concat(savedTags.stream(), newTags.stream()).toList();
     }
+
+    throw new BadRequestException("Can not create tags");
   }
 
   public void createManyWithIgnore(List<String> tags) {

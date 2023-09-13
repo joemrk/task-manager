@@ -1,20 +1,32 @@
 package taskmanager.taskmanager.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/task")
 public class TaskController {
 
+  private final TaskService taskService;
+
+  @Autowired
+  public TaskController(TaskService taskService) {
+    this.taskService = taskService;
+  }
+
   @GetMapping
-  public ResponseEntity<String> getTest() {
-    return ResponseEntity.ok("test");
+  public ResponseEntity<List<Task>> getTest() {
+    return ResponseEntity.ok(this.taskService.findAll());
   }
 
   // create task
+  @PostMapping
+  public ResponseEntity<Task> createTask(@RequestBody TaskCreateDto dto) {
+    return ResponseEntity.ok().body(this.taskService.createOne(dto));
+  }
 
   // get tasks - get by: tag, category, status
 

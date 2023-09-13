@@ -5,11 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import taskmanager.taskmanager.task.Task;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Table(
-  name = "tags",
-  indexes = {@Index(columnList = "name")}
+  name = "tags"
+//  indexes = {@Index(columnList = "name")}
 )
 @Entity
 @Builder
@@ -23,4 +27,9 @@ public class Tag {
 
   @Column(name = "name", unique = true )
   private String name;
+
+  @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+//  @JsonBackReference
+  private Set<Task> tasks = new HashSet<>();
+
 }

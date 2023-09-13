@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import taskmanager.taskmanager.task.Task;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,4 +25,5 @@ public class Category {
 
   @Column(name = "name", unique = true )
   private String name;
+
 }
