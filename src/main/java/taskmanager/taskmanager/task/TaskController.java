@@ -21,13 +21,13 @@ public class TaskController {
 
   @GetMapping
   public ResponseEntity<List<Task>> findAll(@CurrentUser User currentUser) {
-    return ResponseEntity.ok(this.taskService.findAll());
+    return ResponseEntity.ok(this.taskService.findAll(currentUser));
   }
 
   // create task
   @PostMapping
-  public ResponseEntity<Task> createTask(@RequestBody TaskCreateDto dto) {
-    return ResponseEntity.ok().body(this.taskService.createOne(dto));
+  public ResponseEntity<Task> createTask(@RequestBody TaskCreateDto dto, @CurrentUser User currentUser) {
+    return ResponseEntity.ok().body(this.taskService.createOne(dto, currentUser));
   }
 
   // get tasks - get by: tag, category, status

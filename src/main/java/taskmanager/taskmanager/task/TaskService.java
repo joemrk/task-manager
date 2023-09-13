@@ -6,6 +6,7 @@ import taskmanager.taskmanager.category.Category;
 import taskmanager.taskmanager.exception.errors.BadRequestException;
 import taskmanager.taskmanager.tag.Tag;
 import taskmanager.taskmanager.tag.TagService;
+import taskmanager.taskmanager.user.User;
 
 import java.util.HashSet;
 import java.util.List;
@@ -23,13 +24,14 @@ public class TaskService {
   }
 
 
-  public Task createOne(TaskCreateDto dto) {
+  public Task createOne(TaskCreateDto dto, User user){
     Set<Tag> tags = new HashSet<>(tagService.createMany(dto.getTags()));
     System.out.println("tags :" + tags);
     try {
       Task task = Task.builder()
               .description(dto.getDescription())
               .category(Category.builder().id(dto.getCategoryId()).build())
+              .user(User.builder().id(user.getId()).build())
               .status(dto.getStatus())
               .tags(tags)
               .build();
@@ -41,15 +43,13 @@ public class TaskService {
     }
   }
 
-  public List<Task> findAll() {
-    List<Task> tasks = this.taskRepository.findAll();
+  public List<Task> findAll(User user) {
+    List<Task> tasks = this.taskRepository.findByUserId(user.getId());
 //    tasks.forEach(t -> {
 //      Set<Tag> tag = t.getTags();
 //      System.out.println(tag + ":" + tag.size());
 //    });
-//    System.out.println(tasks);
 //    tasks.forEach(t -> t.getTags().size());
-//    System.out.println(tasks);
 
     return tasks;
   }

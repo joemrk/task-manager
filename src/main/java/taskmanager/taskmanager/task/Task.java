@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import taskmanager.taskmanager.category.Category;
 import taskmanager.taskmanager.tag.Tag;
+import taskmanager.taskmanager.user.User;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +30,11 @@ public class Task {
   @JoinColumn(name = "categoryId")
   @OnDelete(action = OnDeleteAction.CASCADE)
   private Category category;
+
+  @ManyToOne
+  @JoinColumn(name = "userId")
+  @OnDelete(action = OnDeleteAction.CASCADE)
+  private User user;
 
 
   @Column(name = "status")
