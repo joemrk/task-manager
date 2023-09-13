@@ -3,6 +3,8 @@ package taskmanager.taskmanager.task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import taskmanager.taskmanager.annotations.CurrentUser;
+import taskmanager.taskmanager.user.User;
 
 import java.util.List;
 
@@ -18,7 +20,7 @@ public class TaskController {
   }
 
   @GetMapping
-  public ResponseEntity<List<Task>> getTest() {
+  public ResponseEntity<List<Task>> findAll(@CurrentUser User currentUser) {
     return ResponseEntity.ok(this.taskService.findAll());
   }
 
